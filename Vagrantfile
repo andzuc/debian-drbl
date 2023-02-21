@@ -1,5 +1,6 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "debian/buster64"
+  config.vm.define :drbl
   config.vm.guest = "debian"
 
   config.vm.base_mac = "0800270BCA25"
@@ -12,6 +13,11 @@ Vagrant.configure("2") do |config|
                     ip: "192.168.202.254",
                     netmask: "255.255.255.0"
   config.vm.hostname = "drbl.clonenet"
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.verbose = "v"
+    ansible.playbook = "playbook.yml"
+  end
   
   config.vm.provider "virtualbox" do |vb|
     vb.name = "drbl"

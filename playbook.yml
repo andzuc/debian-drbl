@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+    - name: "Install packages"
+      apt:
+        pkg:
+          - ca-certificates
+          - curl
+        state: latest
+        update_cache: true
+    - name: "clean apt repository"
+      apt:
+        autoremove: true
+        autoclean: true
