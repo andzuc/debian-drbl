@@ -10,12 +10,13 @@
           - curl
           - gnupg
           - lsb-release
+          - python-pip
+          - python-setuptools
+          - python3-pip
+          - python3-setuptools
+          - virtualenv
         state: latest
         update_cache: true
-    - name: Clean APT repository
-      apt:
-        autoremove: true
-        autoclean: true
     - name: Add Docker GPG apt key
       shell:
         cmd: |
@@ -40,6 +41,10 @@
           - docker-compose-plugin
         state: latest
         update_cache: true
+    - name: Clean APT repository
+      apt:
+        autoremove: true
+        autoclean: true
     - name: Install Docker Module for Python
       pip:
         name: docker
