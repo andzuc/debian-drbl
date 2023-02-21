@@ -1,22 +1,10 @@
 ---
 - hosts: drbl
   become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
 
   tasks:
-    - name: Install packages
-      apt:
-        pkg:
-          - ca-certificates
-          - curl
-          - gnupg
-          - lsb-release
-          - python-pip
-          - python-setuptools
-          - python3-pip
-          - python3-setuptools
-          - virtualenv
-        state: latest
-        update_cache: true
     - name: Add Docker GPG apt key
       shell:
         cmd: |
@@ -48,3 +36,10 @@
     - name: Install Docker Module for Python
       pip:
         name: docker
+        
+    - name: Build DRBL image
+      community.docker.docker_image:
+        name: andzuc/debian-drbl
+        source: build
+        build:
+          path: /vagrant/context

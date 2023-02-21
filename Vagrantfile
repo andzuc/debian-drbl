@@ -14,14 +14,19 @@ Vagrant.configure("2") do |config|
                     netmask: "255.255.255.0"
   config.vm.hostname = "drbl.clonenet"
 
-  config.vm.provision "ansible" do |ansible|
+  config.vm.provision "bootstrap", type: "shell" do |s|
+    s.path = "bootstrap.sh"
+  end
+  
+  config.vm.provision "ansible", type: "ansible_local" do |ansible|
+    ansible.install = "false"
     ansible.verbose = "v"
     ansible.playbook = "playbook.yml"
   end
   
   config.vm.provider "virtualbox" do |vb|
     vb.name = "drbl"
-    vb.gui = true
-    vb.memory = "512"
+    vb.gui = false
+    vb.memory = "1024"
   end
 end
