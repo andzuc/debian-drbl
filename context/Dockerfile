@@ -1,10 +1,11 @@
-FROM andzuc/debian-base:latest
+FROM --platform=linux/386 andzuc/debian-base:latest
 LABEL maintainer "Andrea Zuccherelli <andrea@zuccherelli.net>"
 
 ARG DRBLKEY=667857D045599AFD
 RUN apt-get install -y --no-install-recommends \
     gnupg \
     ca-certificates \
+    linux-image-686 \
     && mkdir "$HOME/.gnupg" \
     && chmod go-rwx "$HOME/.gnupg" \
     && echo "keyserver hkps://keyserver.ubuntu.com" >> "$HOME/.gnupg/dirmngr.conf" \
@@ -15,3 +16,5 @@ RUN apt-get install -y --no-install-recommends \
     && apt-get -y install drbl \
     && apt-get -y autoremove \
     && apt-get -y clean
+
+RUN drblsrv -s -f -l 0 -k 1 -o 1 -i

@@ -36,10 +36,16 @@
     - name: Install Docker Module for Python
       pip:
         name: docker
+    - name: Add vagrant user to Docker group
+      ansible.builtin.user:
+        name: vagrant
+        groups: docker
+        append: true
         
     - name: Build DRBL image
       community.docker.docker_image:
         name: andzuc/debian-drbl
         source: build
+        force_source: true
         build:
           path: /vagrant/context
