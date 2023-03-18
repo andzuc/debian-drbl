@@ -2,6 +2,7 @@ FROM --platform=linux/386 andzuc/debian-base:latest
 LABEL maintainer "Andrea Zuccherelli <andrea@zuccherelli.net>"
 
 ARG DRBLKEY=667857D045599AFD
+RUN echo "APT architecture $(dpkg --print-architecture)"
 RUN apt-get install -y --no-install-recommends \
     gnupg \
     ca-certificates \
