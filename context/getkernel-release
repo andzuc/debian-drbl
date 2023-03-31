@@ -1,0 +1,2 @@
+#!/bin/bash
+(cd /boot; ls vmlinuz-*)|tail -n1|sed -e 's|vmlinuz-\(.*\)|\1|g'
