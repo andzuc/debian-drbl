@@ -18,4 +18,6 @@ RUN apt-get install -y --no-install-recommends \
     && apt-get -y autoremove \
     && apt-get -y clean
 
-RUN drblsrv -s -f -l 0 -k 1 -o 1 -i
+COPY fakeuname/fakeuname /usr/sbin
+#COPY n270_atom_cpuinfo.txt /proc/cpuinfo
+#RUN drblsrv -s -f -l 0 -k 1 -o 1 -i

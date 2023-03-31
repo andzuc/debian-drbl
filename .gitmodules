@@ -1,0 +1,4 @@
+[submodule "context/fakeuname"]
+	path = context/fakeuname
+	url = git@github.com:andzuc/fakeuname.git
+	update = merge
