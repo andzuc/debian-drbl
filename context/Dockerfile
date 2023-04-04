@@ -21,3 +21,5 @@ RUN apt-get install -y --no-install-recommends \
 COPY fakeuname/fakeuname /usr/local/sbin
 COPY getkernel-release /usr/local/sbin
 RUN fakeuname -m i386 -r "$(getkernel-release)" drblsrv -s -f -l 0 -k 1 -o 1 -i
+COPY docker-systemctl-replacement/files/docker/systemctl.py /usr/bin/systemctl
+RUN test -L /bin/systemctl || ln -sf /usr/bin/systemctl /bin/systemctl

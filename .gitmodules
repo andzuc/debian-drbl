@@ -2,3 +2,6 @@
 	path = context/fakeuname
 	url = git@github.com:andzuc/fakeuname.git
 	update = merge
+[submodule "context/docker-systemctl-replacement"]
+	path = context/docker-systemctl-replacement
+	url = https://github.com/gdraheim/docker-systemctl-replacement

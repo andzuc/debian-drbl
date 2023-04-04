@@ -33,12 +33,12 @@
       ansible.builtin.apt:
         autoremove: true
         autoclean: true
-    - name: Disable docker bridge (docker0)
-      ansible.builtin.shell:
-        cmd: |
-          echo \
-          "{ \"bridge\": \"none\" }" > /etc/docker/daemon.json
-        creates: /etc/docker/daemon.json
+    # - name: Disable docker bridge (docker0)
+    #   ansible.builtin.shell:
+    #     cmd: |
+    #       echo \
+    #       "{ \"bridge\": \"none\" }" > /etc/docker/daemon.json
+    #     creates: /etc/docker/daemon.json
     - name: Add vagrant user to Docker group
       ansible.builtin.user:
         name: vagrant
