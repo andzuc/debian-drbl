@@ -21,5 +21,11 @@ RUN apt-get install -y --no-install-recommends \
 COPY fakeuname/fakeuname /usr/local/sbin
 COPY getkernel-release /usr/local/sbin
 RUN fakeuname -m i386 -r "$(getkernel-release)" drblsrv -s -f -l 0 -k 1 -o 1 -i
-COPY docker-systemctl-replacement/files/docker/systemctl.py /usr/bin/systemctl
+# See https://stackoverflow.com/questions/53383431/how-to-enable-systemd-on-dockerfile-with-ubuntu18-04
+RUN apt-get install -y --no-install-recommends \
+    python3 \
+    openssh-server
+COPY docker-systemctl-replacement/files/docker/systemctl3.py /usr/bin/systemctl
 RUN test -L /bin/systemctl || ln -sf /usr/bin/systemctl /bin/systemctl
+RUN systemctl enable ssh
+ENTRYPOINT ["/usr/bin/systemctl"]

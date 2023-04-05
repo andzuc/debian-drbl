@@ -1,7 +1,7 @@
 #!/bin/bash
 
-docker run --rm -it \
+docker run --rm \
        --name drbl \
+       --privileged \
        --net=host \
-       --entrypoint /bin/bash \
        andzuc/debian-drbl:latest
