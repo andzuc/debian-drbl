@@ -6,7 +6,12 @@ RUN echo "APT architecture $(dpkg --print-architecture)"
 RUN apt-get install -y --no-install-recommends \
     gnupg \
     ca-certificates \
+    systemd \
+    systemd-sysv \
+    procps \
+    less \
     linux-image-686 \
+    openssh-server \
     && mkdir "$HOME/.gnupg" \
     && chmod go-rwx "$HOME/.gnupg" \
     && echo "keyserver hkps://keyserver.ubuntu.com" >> "$HOME/.gnupg/dirmngr.conf" \
@@ -20,12 +25,15 @@ RUN apt-get install -y --no-install-recommends \
 
 COPY fakeuname/fakeuname /usr/local/sbin
 COPY getkernel-release /usr/local/sbin
-RUN fakeuname -m i386 -r "$(getkernel-release)" drblsrv -s -f -l 0 -k 1 -o 1 -i
-# See https://stackoverflow.com/questions/53383431/how-to-enable-systemd-on-dockerfile-with-ubuntu18-04
-RUN apt-get install -y --no-install-recommends \
-    python3 \
-    openssh-server
-COPY docker-systemctl-replacement/files/docker/systemctl3.py /usr/bin/systemctl
-RUN test -L /bin/systemctl || ln -sf /usr/bin/systemctl /bin/systemctl
-RUN systemctl enable ssh
-ENTRYPOINT ["/usr/bin/systemctl"]
+#RUN fakeuname -m i386 -r "$(getkernel-release)" drblsrv -s -f -l 0 -k 1 -o 1 -i
+
+# See https://zauner.nllk.net/post/0038-running-systemd-inside-a-docker-container/
+RUN systemctl enable ssh \
+    && sed -i -E 's/^#?Port .*/Port 9022/g' /etc/ssh/sshd_config
+STOPSIGNAL SIGRTMIN+3
+EXPOSE 9022
+RUN useradd -g nogroup testuser -m
+RUN echo testuser:testpassword | chpasswd
+RUN cat /etc/passwd
+RUN TZ=UTC date -I > /home/testuser/date.txt
+CMD [ "/sbin/init" ]
