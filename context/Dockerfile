@@ -10,8 +10,9 @@ RUN apt-get install -y --no-install-recommends \
     systemd-sysv \
     procps \
     less \
-    linux-image-686 \
     openssh-server \
+    linux-image-686 \
+    rpm \
     && mkdir "$HOME/.gnupg" \
     && chmod go-rwx "$HOME/.gnupg" \
     && echo "keyserver hkps://keyserver.ubuntu.com" >> "$HOME/.gnupg/dirmngr.conf" \
