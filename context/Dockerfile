@@ -23,11 +23,6 @@ RUN apt-get install -y --no-install-recommends \
     && apt-get -y autoremove \
     && apt-get -y clean
 
-COPY fakeuname/fakeuname /usr/local/sbin
-COPY getkernel-release /usr/local/sbin
-#RUN fakeuname -m i386 -r "$(getkernel-release)" drblsrv -s -f -l 0 -k 1 -o 1 -i
-
-# See https://zauner.nllk.net/post/0038-running-systemd-inside-a-docker-container/
 RUN systemctl enable ssh \
     && sed -i -E 's/^#?Port .*/Port 9022/g' /etc/ssh/sshd_config
 STOPSIGNAL SIGRTMIN+3
@@ -36,4 +31,11 @@ RUN useradd -g nogroup testuser -m
 RUN echo testuser:testpassword | chpasswd
 RUN cat /etc/passwd
 RUN TZ=UTC date -I > /home/testuser/date.txt
+
+COPY fakeuname/fakeuname /usr/local/sbin
+COPY getkernel-release /usr/local/sbin
+ARG LAST_SERVER_COMMIT
+RUN fakeuname -m i686 -r "$(getkernel-release)" drblsrv -s -f -l 0 -k 1 -o 1 -i
+
+# See https://zauner.nllk.net/post/0038-running-systemd-inside-a-docker-container/
 CMD [ "/sbin/init" ]
