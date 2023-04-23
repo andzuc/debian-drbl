@@ -11,7 +11,7 @@ RUN apt-get install -y --no-install-recommends \
     procps \
     less \
     openssh-server \
-    linux-image-686 \
+    linux-image-686-pae \
     rpm \
     && mkdir "$HOME/.gnupg" \
     && chmod go-rwx "$HOME/.gnupg" \
