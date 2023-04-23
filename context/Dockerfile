@@ -36,7 +36,8 @@ RUN TZ=UTC date -I > /home/testuser/date.txt
 COPY fakeuname/fakeuname /usr/local/sbin
 COPY getkernel-release /usr/local/sbin
 ARG LAST_SERVER_COMMIT
-RUN fakeuname -m i686 -r "$(getkernel-release)" drblsrv -s -f -l 0 -k 1 -o 1 -i
+#RUN fakeuname -m i686 -r "$(getkernel-release)" drblsrv -f -l 0 -i
+#RUN fakeuname -m i686 -r "$(getkernel-release)" drblsrv -s -f -l 0 -k 1 -o 1 -i
 
 # See https://zauner.nllk.net/post/0038-running-systemd-inside-a-docker-container/
 CMD [ "/sbin/init" ]
