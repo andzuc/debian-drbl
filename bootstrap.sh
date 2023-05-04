@@ -13,6 +13,7 @@ apt-get -y update \
 	       python3-setuptools \
 	       python3-dev \
 	       virtualenv \
+	       pkg-config \
     && apt-get -y autoremove \
     && apt-get -y clean \
     && (curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y) \
