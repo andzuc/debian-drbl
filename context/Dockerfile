@@ -33,11 +33,17 @@ RUN echo testuser:testpassword | chpasswd
 RUN cat /etc/passwd
 RUN TZ=UTC date -I > /home/testuser/date.txt
 
-COPY fakeuname/fakeuname /usr/local/sbin
-COPY getkernel-release /usr/local/sbin
-ARG LAST_SERVER_COMMIT
+COPY fakeuname/fakeuname /usr/local/sbin/
+COPY getkernel-release /usr/local/sbin/
 RUN fakeuname -m i686 -r "$(getkernel-release)" drblsrv -f -l 0 -i
-#RUN fakeuname -m i686 -r "$(getkernel-release)" drblsrv -s -f -l 0 -k 1 -o 1 -i
+
+RUN apt-get install -y --no-install-recommends \
+    nano
+
+ARG LAST_SERVER_COMMIT
+COPY drbl /etc/drbl/
+RUN sed -i -E 's/^exclude_eth_nics=.*/exclude_eth_nics="docker0"/g' /etc/drbl/drbl.conf \
+    && drblpush -c /etc/drbl/drblpush.conf --no_deploy
 
 # See https://zauner.nllk.net/post/0038-running-systemd-inside-a-docker-container/
 CMD [ "/sbin/init" ]
