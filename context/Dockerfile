@@ -40,6 +40,7 @@ RUN fakeuname -m i686 -r "$(getkernel-release)" drblsrv -f -l 0 -i
 RUN apt-get install -y --no-install-recommends \
     nano
 
+# force commit 20230513
 ARG LAST_SERVER_COMMIT
 COPY drbl /etc/drbl/
 RUN sed -i -E 's/^exclude_eth_nics=.*/exclude_eth_nics="docker0"/g' /etc/drbl/drbl.conf \
