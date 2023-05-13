@@ -40,11 +40,11 @@ RUN fakeuname -m i686 -r "$(getkernel-release)" drblsrv -f -l 0 -i
 RUN apt-get install -y --no-install-recommends \
     nano
 
-# force commit 20230513
+# force commit 2023051301
 ARG LAST_SERVER_COMMIT
 COPY drbl /etc/drbl/
-RUN sed -i -E 's/^exclude_eth_nics=.*/exclude_eth_nics="docker0"/g' /etc/drbl/drbl.conf \
-    && drblpush -c /etc/drbl/drblpush.conf --no_deploy
+RUN sed -i -E 's/^exclude_eth_nics=.*/exclude_eth_nics="docker0"/g' /etc/drbl/drbl.conf
+#    && drblpush -c /etc/drbl/drblpush.conf --no_deploy
 
 # See https://zauner.nllk.net/post/0038-running-systemd-inside-a-docker-container/
 CMD [ "/sbin/init" ]
