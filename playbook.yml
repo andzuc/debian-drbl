@@ -30,7 +30,7 @@
     - name: Copy Docker config
       ansible.builtin.copy:
         src: /vagrant/ansible/docker
-        dest: /etc/docker/
+        dest: /etc/
         owner: root
         group: root
     - name: Add Docker GPG apt key
