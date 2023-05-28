@@ -5,6 +5,34 @@
     ansible_python_interpreter: /usr/bin/python3
 
   tasks:
+    - name: Update apt and install btrfs
+      ansible.builtin.apt:
+        pkg:
+          - btrfs-tools
+        state: latest
+        update_cache: true
+    - name: Create a btrfs filesystem on /dev/sdb
+      community.general.filesystem:
+        fstype: btrfs
+        dev: /dev/sdb
+    - name: Create btrfs Docker mount point 
+      ansible.builtin.file:
+        path: /var/lib/docker
+        state: directory
+        mode: '0710'
+    - name: Mount up btrfs
+      ansible.posix.mount:
+        path: /var/lib/docker
+        src: /dev/sdb
+        fstype: btrfs
+        opts: rw
+        state: mounted
+    - name: Copy Docker config
+      ansible.builtin.copy:
+        src: /vagrant/ansible/docker
+        dest: /etc/docker/
+        owner: root
+        group: root
     - name: Add Docker GPG apt key
       ansible.builtin.shell:
         cmd: |
@@ -33,12 +61,6 @@
       ansible.builtin.apt:
         autoremove: true
         autoclean: true
-    # - name: Disable docker bridge (docker0)
-    #   ansible.builtin.shell:
-    #     cmd: |
-    #       echo \
-    #       "{ \"bridge\": \"none\" }" > /etc/docker/daemon.json
-    #     creates: /etc/docker/daemon.json
     - name: Add vagrant user to Docker group
       ansible.builtin.user:
         name: vagrant

@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
                     ip: "192.168.202.254",
                     netmask: "255.255.255.0"
   config.vm.hostname = "drbl.clonenet"
+  config.vm.disk :disk, size: "10GB", name: "docker_storage"
 
   config.vm.provision "bootstrap", type: "shell" do |s|
     s.path = "bootstrap.sh"

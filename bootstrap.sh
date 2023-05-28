@@ -20,3 +20,4 @@ apt-get -y update \
     && source "$HOME/.cargo/env" \
     && python3 -m pip install wheel \
     && python3 -m pip install ansible
+#    && ansible-galaxy collection install community.general
