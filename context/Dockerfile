@@ -42,9 +42,12 @@ RUN apt-get install -y --no-install-recommends \
 
 # force commit 2023051301
 ARG LAST_SERVER_COMMIT
-COPY drbl /etc/drbl/
+COPY drbl/drblpush.conf /etc/drbl/
 RUN sed -i -E 's/^exclude_eth_nics=.*/exclude_eth_nics="docker0"/g' /etc/drbl/drbl.conf
 #    && drblpush -c /etc/drbl/drblpush.conf --no_deploy
+
+COPY drbl/drblpush.service /lib/systemd/system
+RUN systemctl enable drblpush.service
 
 # See https://zauner.nllk.net/post/0038-running-systemd-inside-a-docker-container/
 CMD [ "/sbin/init" ]

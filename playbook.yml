@@ -29,8 +29,8 @@
         state: mounted
     - name: Copy Docker config
       ansible.builtin.copy:
-        src: /vagrant/ansible/docker
-        dest: /etc/
+        src: /vagrant/ansible/docker/
+        dest: /etc/docker
         owner: root
         group: root
     - name: Add Docker GPG apt key

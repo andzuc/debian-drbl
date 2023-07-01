@@ -1,6 +1,7 @@
 #!/bin/bash
 
-docker run --rm \
+screen -L -Logfile run.log \
+       docker run --rm \
        --name drbl \
        --privileged \
        --net=host \

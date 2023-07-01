@@ -1,0 +1,8 @@
+[Unit]
+Description=Exec drblpush
+
+[Service]
+ExecStart=/usr/sbin/drblpush -c /etc/drbl/drblpush.conf
+
+[Install]
+WantedBy=multi-user.target
