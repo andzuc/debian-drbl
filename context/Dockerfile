@@ -43,8 +43,9 @@ RUN apt-get install -y --no-install-recommends \
 # force commit 2023051301
 ARG LAST_SERVER_COMMIT
 COPY drbl/drblpush.conf /etc/drbl/
-RUN sed -i -E 's/^exclude_eth_nics=.*/exclude_eth_nics="docker0"/g' /etc/drbl/drbl.conf
-#    && drblpush -c /etc/drbl/drblpush.conf --no_deploy
+RUN sed -i -E 's/^exclude_eth_nics=.*/exclude_eth_nics="docker0"/g' /etc/drbl/drbl.conf \
+    && mv /usr/lib/i386-linux-gnu/libacl.so.1* /lib/i386-linux-gnu \
+    && mv /usr/lib/i386-linux-gnu/libattr.so.1* /lib/i386-linux-gnu
 
 COPY drbl/drblpush.service /lib/systemd/system
 RUN systemctl enable drblpush.service
