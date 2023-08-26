@@ -5,6 +5,30 @@
     ansible_python_interpreter: /usr/bin/python3
 
   tasks:
+    - name: Create /pub mount point 
+      ansible.builtin.file:
+        path: /pub
+        state: directory
+        mode: '0750'
+    - name: Mount pub
+      ansible.posix.mount:
+        path: /pub
+        src: /dev/zcloner_vg0/pub
+        fstype: xfs
+        opts: defaults
+        state: mounted
+    - name: Create /partimag mount point 
+      ansible.builtin.file:
+        path: /partimag
+        state: directory
+        mode: '0750'
+    - name: Mount partimag
+      ansible.posix.mount:
+        path: /partimag
+        src: /dev/zcloner_vg0/partimag
+        fstype: xfs
+        opts: defaults
+        state: mounted
     - name: Update apt and install btrfs
       ansible.builtin.apt:
         pkg:
@@ -20,7 +44,7 @@
         path: /var/lib/docker
         state: directory
         mode: '0710'
-    - name: Mount up btrfs
+    - name: Mount btrfs
       ansible.posix.mount:
         path: /var/lib/docker
         src: /dev/sdb

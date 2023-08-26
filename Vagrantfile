@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
                     netmask: "255.255.255.0"
   config.vm.hostname = "drbl.clonenet"
   config.vm.disk :disk, size: "10GB", name: "docker_storage"
-
+  
   config.vm.provision "bootstrap", type: "shell" do |s|
     s.path = "bootstrap.sh"
   end
@@ -29,5 +29,8 @@ Vagrant.configure("2") do |config|
     vb.name = "drbl"
     vb.gui = false
     vb.memory = "1024"
+    # custom storage
+    vb.customize [ 'storagectl', :id, '--name', 'SATA Controller', '--portcount', 3]
+    vb.customize [ 'storageattach', :id, '--storagectl', 'SATA Controller', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', "/opt/vbox/media/hdz/zcloner/vg0_20121015/zcloner_vg0_pv0.vdi"]
   end
 end
